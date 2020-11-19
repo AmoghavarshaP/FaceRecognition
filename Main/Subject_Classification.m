@@ -10,14 +10,30 @@ total_size = 200;
 x_train = get_subject_data('train',data_set,total_size);
 x_test = get_subject_data('test',data_set,total_size);
 
+
 %Training the bayesian subject classification model:
+mu = [];
+for i = 1:size(x_train,2)/2
+        train_mu1 = (x_train(:,i)+x_train(:,i+1))/2*size(x_train(:,1),2);
+        mu = [mu train_mu1];
+        
+end
+test = cov(mu(:,1)');  
 train_mu = sum(x_train,2)/size(x_train,2);
+cov = [];
+x = [1:size(x_train,2)/2];
+for i = 1:length(x)
+    disp(i);
+    temp = mu(:,i)';
+    covar = cov(temp);
+end
 
 train_cov = cov(x_train');
 %Regularization of the covariance matrix
 delta = 1;
 train_cov = train_cov + delta.*eye(size(train_cov));
 det_train_cov = det(train_cov);
+
 if det(train_cov)== 0
     disp('singular')
     pause
