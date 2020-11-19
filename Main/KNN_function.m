@@ -1,3 +1,7 @@
+%This is a custom KNN classifier function for implementing PCA and LDA with for a regular KNN classifier
+%Delta: Value used for regularization, set default = 1
+%Scaled_value: Value used to scaling the data after LDA/PCA, set default=1
+
 function KNN_function = KNN_function(training_data,testing_data,K,scaled_value,data_size,data_split)
 
 x_neutral = training_data(:,1:3:3*data_size*data_split);
@@ -34,7 +38,7 @@ for n = 1:size(x_test,2)
         accuracy = accuracy + 1;
     end
 end
-disp('The Accuracy is:  ');
+disp('Accuracy is:  ');
 disp((accuracy/size(x_test,2))*100);
 
 end

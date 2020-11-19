@@ -66,7 +66,7 @@ for n = 1:size(x_test,2)
     end
     
     %comparison of labels
-    if true_label*computed_label == 1
+    if true_label*computed_label == 1  
         accuracy = accuracy+1;
     end
 end

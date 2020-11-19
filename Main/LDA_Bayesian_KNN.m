@@ -33,6 +33,8 @@ inv_total_cov = pinv(total_cov);
 %Direction of projection or theta for the data
 theta = inv_total_cov.*(neutral_mu-expression_mu);
 %Calling Bayes function
+disp("LDA with Bayesian Classifier: ")
 bayes_function(training_data,testing_data,1,theta,data_size,data_split);
 %Calling KNN Function
+disp("LDA with KNN Classifier: "+ "--for K= "+K);
 KNN_function(training_data,testing_data,K,theta,data_size,data_split);

@@ -1,3 +1,6 @@
+%This is a custom bayesian classifier function for implementing PCA and LDA with for a regular bayesian classifier
+%Delta: Value used for regularization, set default = 1
+%Scaled_value: Value used to scaling the data after LDA/PCA, set default=1
 function bayes_function = bayes_function(training_data,testing_data,delta,scaled_value,data_size,data_split)
 
 x_train = [training_data(:,1:3:3*data_size*data_split) training_data(:,2:3:3*data_size*data_split)];
@@ -34,8 +37,8 @@ for n = 1:size(x_test,2)
     end
     %Next, to calculate the posteriors for both the neutral and the expression
     %classes 
-    P_neutral = (1/sqrt(2*pi*det_neutral_cov))*exp(-0.5*((scaled_value'*x_test(:,n)-neutral_mu))'*inv_neutral_cov*(scaled_value'*x_test(:,n)-neutral_mu));
-    P_expression = (1/sqrt(2*pi*det_expression_cov))*exp(-0.5*((scaled_value'*x_test(:,n)-expression_mu))'*inv_expression_cov*(scaled_value'*x_test(:,n)-expression_mu));
+    P_neutral = (1/sqrt(2*pi*det_neutral_cov))*exp(-0.5*(scaled_value'*x_test(:,n)-neutral_mu)'*inv_neutral_cov*(scaled_value'*x_test(:,n)-neutral_mu));
+    P_expression = (1/sqrt(2*pi*det_expression_cov))*exp(-0.5*(scaled_value'*x_test(:,n)-expression_mu)'*inv_expression_cov*(scaled_value'*x_test(:,n)-expression_mu));
     
     %appending the posteriors to with labels
     Posterior = [P_neutral 1;P_expression -1];
