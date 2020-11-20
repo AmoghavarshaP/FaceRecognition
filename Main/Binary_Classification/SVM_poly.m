@@ -1,7 +1,7 @@
 clc;
 clear;
 close all;
-data_set = 'data.mat';
+data_set = '../Data/data.mat';
 %Cropped set of images is 200 subjects
 data_size = 200;
 %Test-train split 50-50 split
@@ -45,7 +45,7 @@ end
 
 %kernels
 kern = @(X,d) (1+X)^d;
-d= 5;
+d= 4;
 K1 = kern(x_train(:,size(x_train,1))*y,d);
 
 
@@ -91,5 +91,18 @@ end
 accuracy = (acc/size(x_test,2))*100;
 disp('base accuracy:');
 disp(accuracy);
+
+% r       = [1,2,6,8];
+% accuracy_value = [92,92,68];
+% vector = [r' accuracy_value',];
+% plot(vector(:,1),vector(:,2),'b');
+% hold on 
+% legend({'SVM_Poly'},'Location','southwest')
+% title("SVM with RBF Kernel: Accuracy variations")
+% xlabel("sigma square value,slack parameter C= 0.3");
+% ylabel("Accuracy(%)")
+% hold off
+
+
 
 

@@ -1,13 +1,14 @@
 clc;
 clear;
 close all;
-data_set = 'data.mat';
+
+data_set = '../Data/data.mat';
 %Cropped set of images is 200 subjects
 data_size = 200;
 %Test-train split 50-50 split
 %try 0.25,0.75
 data_split = 0.5;
-K=7;
+K=11;
 %Extract Training and Testing data
 training_data = get_data('train',data_set,data_size,data_split);
 testing_data = get_data('test',data_set,data_size,data_split);
@@ -32,9 +33,27 @@ inv_total_cov = pinv(total_cov);
 
 %Direction of projection or theta for the data
 theta = inv_total_cov.*(neutral_mu-expression_mu);
-%Calling Bayes function
-disp("LDA with Bayesian Classifier: ")
-bayes_function(training_data,testing_data,1,theta,data_size,data_split);
-%Calling KNN Function
-disp("LDA with KNN Classifier: "+ "--for K= "+K);
-KNN_function(training_data,testing_data,K,theta,data_size,data_split);
+
+training_data = theta'*training_data;
+testing_data = theta'*testing_data;
+%%Calling the KNN function:
+disp("PCA with KNN Classifier: "+ "--for K= "+K);
+KNN_function(training_data,testing_data,K,data_size,data_split);
+
+% 
+% %Visulization
+% K_value        = [3,5,7,9,11];
+% accuracy_value = [78,82,82,80,81];
+% vector = [K_value' accuracy_value',];
+% plot(vector(:,1),vector(:,2),'b');
+% legend('KNN')
+% hold on 
+% K_value_LDA        = [3,5,7,9,11];
+% accuracy_value_LDA = [83.5,83,84,84,85];
+% vector = [K_value_LDA' accuracy_value_LDA'];
+% plot(vector(:,1),vector(:,2),'r');
+% legend({'KNN','KNN with LDA'},'Location','southeast')
+% title("KNN Classifier: Accuracy variations")
+% xlabel("K");
+% ylabel("Accuracy(%)")
+% hold off

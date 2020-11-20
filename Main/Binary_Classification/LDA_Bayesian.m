@@ -1,13 +1,12 @@
 clc;
 clear;
 close all;
-data_set = 'data.mat';
+data_set = '../Data/data.mat';
 %Cropped set of images is 200 subjects
 data_size = 200;
 %Test-train split 50-50 split
 %try 0.25,0.75
 data_split = 0.5;
-K=7;
 %Extract Training and Testing data
 training_data = get_data('train',data_set,data_size,data_split);
 testing_data = get_data('test',data_set,data_size,data_split);
@@ -33,6 +32,13 @@ inv_total_cov = pinv(total_cov);
 
 %Direction of projection or theta for the data
 theta = inv_total_cov.*(neutral_mu-expression_mu);
+%Transforming the training and testing data -- Dimension reduction
+training_data = theta'*training_data;
+testing_data = theta' * testing_data;
 %Calling Bayes function
+delta = 1;
 disp("LDA with Bayesian Classifier: ")
-bayes_function(training_data,testing_data,1,theta,data_size,data_split);
+bayes_function(training_data,testing_data,delta,data_size,data_split);
+
+
+

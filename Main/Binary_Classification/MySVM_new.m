@@ -1,7 +1,8 @@
 clc;
 clear;
 close all;
-data_set = 'data.mat';
+
+data_set = '../Data/data.mat';
 %Cropped set of images is 200 subjects
 data_size = 200;
 %Test-train split 50-50 split
@@ -9,7 +10,7 @@ data_size = 200;
 data_split = 0.5;
 
 %Set the slack parameter
-C = 1;
+C = 0.3;
 %Extract Training and Testing data
 training_data = get_data('train',data_set,data_size,data_split);
 testing_data = get_data('test',data_set,data_size,data_split);
@@ -61,7 +62,6 @@ for i = 1:size(x_test,2)
     end
     value = theta'*x_test(:,i) + theta0;
     % using the test image in the linear predictor
-
     prediction = value*true_label;
 
     if prediction > 0
@@ -71,5 +71,6 @@ end
 accuracy = (acc/size(x_test,2))*100;
 disp('base accuracy:');
 disp(accuracy);
+
 
 

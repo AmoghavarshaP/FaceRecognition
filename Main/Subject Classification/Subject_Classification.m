@@ -3,7 +3,7 @@
 clc;
 clear;
 close all;
-data_set = 'data.mat';
+data_set = '../Data/data.mat';
 %200 subjects, each subject has 3 images, total of 600 images 
 total_size = 200;
 tic

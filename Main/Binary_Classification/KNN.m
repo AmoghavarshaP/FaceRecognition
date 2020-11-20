@@ -1,9 +1,22 @@
-%This is a custom KNN classifier function for implementing PCA and LDA with for a regular KNN classifier
-%Delta: Value used for regularization, set default = 1
-%Scaled_value: Value used to scaling the data after LDA/PCA, set default=1
+clc;
+clear;
+close all;
 
-function KNN_function = KNN_function(training_data,testing_data,K,scaled_value,data_size,data_split)
+data_set = '../Data/data.mat';
+%Cropped set of images is 200 subjects
+data_size = 200;
+%Test-train split 50-50 split
+%try 0.25,0.75
+data_split = 0.5;
+%%Setting K value
+K=11;
 
+%Extract Training and Testing data
+training_data = get_data('train',data_set,data_size,data_split);
+testing_data = get_data('test',data_set,data_size,data_split);
+
+%Defining X_train, X_train to include both classes from the training and testing data resplecively
+%X_train = [x_neutral x_expression]; X_test = [x_neutral x_expression]
 x_neutral = training_data(:,1:3:3*data_size*data_split);
 x_expression = training_data(:,2:3:3*data_size*data_split);
 x_train = [x_neutral x_expression];
@@ -21,15 +34,16 @@ for i = 1:size(x_test,2)
     else
         true_label = -1;
     end
-    
+    %To calculate the distance between points:
     for j = 1: size(x_neutral,2)
-        distance = norm((scaled_value'*x_test(:,i))-(scaled_value'*x_neutral(:,j)));
+        distance = norm(x_test(:,i)-x_neutral(:,j));
         distance_vector = [distance_vector;[distance 1]];
     end
     for j = 1: size(x_expression,2)
-        distance = norm((scaled_value'*x_test(:,i))-(scaled_value'*x_expression(:,j)));
+        distance = norm(x_test(:,i)-x_expression(:,j));
         distance_vector = [distance_vector;[distance -1]];
     end
+    
     %find the computed label: Dependent on K value
     poll = sortrows(distance_vector, 1);
     computed_label = mode(poll(1:K,2));
@@ -37,8 +51,17 @@ for i = 1:size(x_test,2)
     if true_label*computed_label == 1
         accuracy = accuracy + 1;
     end
+    
 end
-disp('Accuracy is:  ');
+disp('Base acccuracy: ');
 disp((accuracy/size(x_test,2))*100);
 
-end
+
+%Visulization
+% K_value        = [3,5,7,9,11];
+% accuracy_value = [78,82,82,80,81];
+% vector = [K_value' accuracy_value'];
+% plot(vector(:,1),vector(:,2));
+% title("KNN Classifier: Accuracy variations")
+% xlabel("K");
+% ylabel("Accuracy(%)")
