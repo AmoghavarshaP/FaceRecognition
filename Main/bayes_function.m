@@ -39,21 +39,21 @@ for n = 1:size(x_test,2)
     %classes 
     P_neutral = (1/sqrt(2*pi*det_neutral_cov))*exp(-0.5*(scaled_value'*x_test(:,n)-neutral_mu)'*inv_neutral_cov*(scaled_value'*x_test(:,n)-neutral_mu));
     P_expression = (1/sqrt(2*pi*det_expression_cov))*exp(-0.5*(scaled_value'*x_test(:,n)-expression_mu)'*inv_expression_cov*(scaled_value'*x_test(:,n)-expression_mu));
-    
-    %appending the posteriors to with labels
+     
+    %appending the posteriors with their corrsponding labels 
     Posterior = [P_neutral 1;P_expression -1];
-    %finding max of the two posterior probabilities
+    %To determine the max value of posterior to make prediction
     [~,index] = max(Posterior(:,1));
     
-    %proper labelling for comparison
+    %Reassigning labels
     if index == 1
         computed_label = 1;
     elseif index == 2
         computed_label = -1;
     end
     
-    %comparison of labels
-    if true_label*computed_label == 1
+    %Prediction:
+    if true_label*computed_label == 1  
         accuracy = accuracy+1;
     end
 end

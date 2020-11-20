@@ -45,22 +45,11 @@ ub = C*ones(size(lb));
 
 alpha = quadprog(H,f,A,b,Aeq,beq,lb,ub);
 
-alpha_ = [];
-for i = 1:size(alpha,1)
-    if mu(i) <= 10^-8
-        alpha_(i) = 0;
-    else
-        alpha_(i) = alpha(i);
-    end
-end
-% alpha_ is an appropriate vector with small values reduced to zeros.
-alpha_ = alpha_';
-
-theta = ((alpha_.*labels)'*x_train)';
+theta = ((alpha.*labels)'*x_train)';
 
 % looking for random index of non-zero mu value (support-vector) to use it
 % to find the bias (theta0)
-[~,index] = max(alpha_);
+[~,index] = max(alpha);
 theta0 = (1/labels(index)) - theta'*x_train(index,:)';
 acc = 0;
 for i = 1:size(x_test,2)

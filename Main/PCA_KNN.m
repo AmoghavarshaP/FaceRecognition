@@ -16,4 +16,5 @@ testing_data = get_data('test',data_set,data_size,data_split);
 %%Performing PCA on the data:
 [U,S,V] = svds(training_data,25);
 %%Calling the bayes function:
+disp("PCA with KNN Classifier: "+ "--for K= "+K);
 KNN_function(training_data,testing_data,K,U,data_size,data_split);
