@@ -13,13 +13,23 @@ x_test = get_subject_data('test',data_set,total_size);
 
 %Training the bayesian subject classification model:
 mu = [];
-for i = 1:size(x_train,2)/2
-        train_mu1 = (x_train(:,i)+x_train(:,i+1))/2*size(x_train(:,1),2);
-        mu = [mu train_mu1];
+covariance = [];
+for i = 1:size(x_train,2)
+        if mod(i,2) == 1 
+           train_mu1 = (x_train(:,i)+x_train(:,i+1))/2*size(x_train(:,1),2);
+           mu = [mu train_mu1]; 
+        end
+        
+        %covar = cov(train_mu1);
+        %covariance = [covariance covar];
+        
         
 end
+
 test = cov(mu(:,1)');  
 train_mu = sum(x_train,2)/size(x_train,2);
+train_cov = cov(x_train');
+set = x_test(:,1)-train_mu;
 cov = [];
 x = [1:size(x_train,2)/2];
 for i = 1:length(x)
@@ -28,7 +38,7 @@ for i = 1:length(x)
     covar = cov(temp);
 end
 
-train_cov = cov(x_train');
+
 %Regularization of the covariance matrix
 delta = 1;
 train_cov = train_cov + delta.*eye(size(train_cov));
