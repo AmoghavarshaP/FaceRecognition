@@ -46,7 +46,7 @@ end
 %Testing:
 accuracy = 0;
 for i = 1:size(x_test,2)
-    Posterior = [];
+    %Posterior = [];
     for j = 1:size(x_test,2)        
          P_test(i,j) = (1/sqrt(2*pi*det(train_cov(:,:,j))))*exp(-0.5*(x_test(:,i)-train_mu(:,j))'*inv_train_cov(:,:,j)*(x_test(:,i)-train_mu(:,j)));
    

@@ -45,12 +45,12 @@ end
 
 %kernels
 kern = @(X,d) (1+X)^d;
-d= 4;
+d= 7;
 K1 = kern(x_train(:,size(x_train,1))*y,d);
 
 
 %tes1= K.*test;
-H = K1;
+H = K1.*(labels*labels');
 f = -ones(size(x_train,1),1);
 A=[];
 b =[];

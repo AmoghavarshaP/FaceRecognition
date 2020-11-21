@@ -10,7 +10,7 @@ data_size = 200;
 data_split = 0.5;
 
 %Set the slack parameter
-C = 0.3;
+C = 0.27;
 %Extract Training and Testing data
 training_data = get_data('train',data_set,data_size,data_split);
 testing_data = get_data('test',data_set,data_size,data_split);
@@ -71,6 +71,15 @@ end
 accuracy = (acc/size(x_test,2))*100;
 disp('base accuracy:');
 disp(accuracy);
+
+split_LDA      = [0.1,0.15,0.2,0.25,0.3,0.4];
+accuracy_value = [70.5,82,83,85.5,86,85];
+vector = [split_LDA' accuracy_value'];
+plot(vector(:,1),vector(:,2),'b'); 
+title("SVM Classifier: Accuracy variations")
+xlabel("C: Slack Parameter");
+ylabel("Accuracy(%)")
+
 
 
 

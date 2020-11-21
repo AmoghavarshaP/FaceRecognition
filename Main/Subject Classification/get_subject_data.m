@@ -7,8 +7,8 @@ if strcmp(type,'train')
     images = load(data_set);
     data = [];
     for n = 1:total_size
-        Neutral_images = images.face(:,:,3*n-2);
-        Expression_images = images.face(:,:,3*n-1);
+        Neutral_images = images.face(:,:,3*n-1);
+        Expression_images = images.face(:,:,3*n);
         data = [data Neutral_images(:)  Expression_images(:)];
     end
     get_subject_data = data;
@@ -17,7 +17,7 @@ elseif strcmp(type,'test')
     images = load(data_set);
     data = [];
     for n = 1:total_size
-        Illumination_images = images.face(:,:,3*n);
+        Illumination_images = images.face(:,:,3*n-2);
         data = [data Illumination_images(:)];
     end
     get_subject_data = data;
