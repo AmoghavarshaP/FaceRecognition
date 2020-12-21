@@ -1,6 +1,5 @@
 Project1: CMSC828C: Statistical Pattern Recognition 
 Author: Amoghavarsha Prasanna
-UID: 116952910
 
 The files have been organised into 3 folders namely Binary Classification, Data and Subject Classification.
 
